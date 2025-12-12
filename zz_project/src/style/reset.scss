@@ -1,0 +1,186 @@
+/* 1. 全局基础重置（不影响组件的核心属性） */
+* {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* 2. 仅作用于业务容器的样式重置（关键：添加 .app-container 前缀） */
+.app-container {
+  /* 业务容器基础样式 */
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* 业务容器内的 HTML 标签重置（避免全局覆盖 Element） */
+.app-container body {
+  margin: 0;
+  line-height: 1;
+}
+
+.app-container article,
+.app-container aside,
+.app-container footer,
+.app-container header,
+.app-container nav,
+.app-container section,
+.app-container main,
+.app-container figcaption,
+.app-container figure,
+.app-container menu,
+.app-container details {
+  display: block;
+}
+
+.app-container audio,
+.app-container canvas,
+.app-container video {
+  display: inline-block;
+}
+
+.app-container img {
+  display: block;
+  border: 0;
+}
+
+.app-container h1,
+.app-container h2,
+.app-container h3,
+.app-container h4,
+.app-container h5,
+.app-container h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+.app-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.app-container address,
+.app-container cite,
+.app-container dfn,
+.app-container em,
+.app-container var {
+  font-style: normal;
+}
+
+.app-container ul,
+.app-container ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.app-container a {
+  background-color: transparent;
+  font-size: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-container a:active,
+.app-container a:hover {
+  outline: 0;
+}
+
+.app-container :focus {
+  outline: 0;
+}
+
+.app-container button,
+.app-container input,
+.app-container select,
+.app-container textarea {
+  margin: 0;
+  font-size: inherit;
+}
+
+.app-container button,
+.app-container html [type="button"],
+.app-container [type="reset"],
+.app-container [type="submit"] {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background-color: transparent;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+.app-container button::-moz-focus-inner,
+.app-container input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.app-container input {
+  padding: 0;
+  line-height: normal;
+}
+
+.app-container input::-webkit-input-placeholder {
+  font-weight: 300;
+}
+
+.app-container input::-ms-input-placeholder {
+  font-weight: 300;
+}
+
+.app-container input::-moz-placeholder {
+  font-weight: 300;
+}
+
+.app-container [type="number"] {
+  -moz-appearance: textfield;
+}
+
+.app-container [type="number"]::-webkit-inner-spin-button,
+.app-container [type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+  height: auto;
+  -webkit-appearance: none;
+}
+
+.app-container [type="search"] {
+  -webkit-appearance: textfield;
+}
+
+.app-container [type="search"]::-webkit-search-cancel-button,
+.app-container [type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+.app-container textarea {
+  overflow: auto;
+  resize: none;
+  -webkit-appearance: none;
+}
+
+.app-container select {
+  -webkit-appearance: none;
+  background-color: #fff;
+}
+
+.app-container table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+html, body, span, applet, object, iframe,
+ h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
