@@ -27,7 +27,9 @@
     "axios": "^1.13.2",
     "element-plus": "^2.11.9",
     "husky": "^9.1.7",
+    "nprogress": "^0.2.0",
     "pinia": "^3.0.4",
+    "progress": "^2.0.3",
     "router": "^2.2.0",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"

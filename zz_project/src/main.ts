@@ -10,7 +10,7 @@ import './style/index.scss'
 import App from './App.vue'
 import router from './router'
 import globalComponents from './components/index.ts'
-console.log(globalComponents)
+import '@/permission.ts'
 const app = createApp(App)
 app.use(ElementPlus, {
   locale: zhCn,

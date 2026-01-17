@@ -1,6 +1,6 @@
 export interface loginFormData {
   username: string
-  password: number
+  password: string
 }
 interface loginData {
   token?: string

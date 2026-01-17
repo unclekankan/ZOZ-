@@ -30,15 +30,16 @@
 <script setup lang="ts" >
 import {Lock, User} from '@element-plus/icons-vue'
 import {ref} from 'vue'
-import {useRouter} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
 import { useUserStore } from '@/stores/modules/user'
 import { ElMessage, ElNotification } from 'element-plus'
-const {token,userLogin} = useUserStore()
-const route = useRouter()
+const {userLogin} = useUserStore()
+const router = useRouter()
+const route = useRoute()
 // 登录表单数据
 let userInfo=ref({
   username:'admin',
-  password:111111
+  password:'111111'
 })
 console.log(userInfo.value.password);
 
@@ -88,9 +89,10 @@ let loading=ref(false)
   await loginForm.value.validate()
   loading.value=true
   try{
-    let userLogimResult = await userLogin(userInfo.value)
+    await userLogin(userInfo.value)
     loading.value=false
-    route.push('/')
+    let redirect:any = route.query.redirect
+    router.push({path:redirect || '/'})
     ElNotification({
       title: '宝贝儿~'+' '+getTime(),
       message: '欢迎回来！',
@@ -102,9 +104,6 @@ let loading=ref(false)
   }
 }
 </script>
-
-
-
 
 
 
