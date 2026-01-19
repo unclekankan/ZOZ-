@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { reqLogin, reqUserInfo } from '@/api/user'
+import { reqLogin, reqUserInfo, reqLogout } from '@/api/user'
 import type { loginFormData, loginResponseData } from '@/api/user/type'
 import { constantRouter } from '@/router/routers'
 export const useUserStore = defineStore('user', () => {
@@ -22,11 +22,18 @@ export const useUserStore = defineStore('user', () => {
     avater.value = result.data.avatar
     username.value = result.data.name
   }
-  const userLogout = () => {
-    avater.value = ''
-    username.value = ''
-    token.value = ''
-    localStorage.removeItem('token')
+  const userLogout = async () => {
+    let res = await reqLogout()
+    if (res.code === 200) {
+      console.log('退出登录成功')
+      avater.value = ''
+      username.value = ''
+      token.value = ''
+      localStorage.removeItem('token')
+      return 'ok'
+    } else {
+      return Promise.reject(new Error(res.data.message))
+    }
   }
   return { token, userLogin, menuRouter, userInfo, avater, username, userLogout }
 })

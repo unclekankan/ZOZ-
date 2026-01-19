@@ -2,7 +2,12 @@
 
 import request from '@/utils/request'
 
-import type { loginFormData, loginResponseData, userInfoReponseData } from './type.ts'
+import type {
+  loginFormData,
+  loginResponseData,
+  userInfoReponseData,
+  logoutResponseData,
+} from './type.ts'
 
 //项目用户相关的请求地址
 
@@ -22,4 +27,4 @@ export const reqUserInfo = () => request.get<any, userInfoReponseData>(API.USERI
 
 //退出登录
 
-export const reqLogout = () => request.post<any, any>(API.LOGOUT_URL)
+export const reqLogout = () => request.post<any, logoutResponseData>(API.LOGOUT_URL)

@@ -71,12 +71,18 @@ const fullScreen = ()=>{
   }
 }
 // 退出登录
-const LogOut = ()=>{
-  userStore.userLogout()
-  router.replace({
+const LogOut = async()=>{
+  try{await userStore.userLogout()
+    router.replace({
     path:'/Login',
     query: { redirect:route.path}
   })
+  }
+  catch(e){
+    console.log(e);
+  }
+
+
 }
 </script>
 <style scoped lang="scss">

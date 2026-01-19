@@ -9,14 +9,25 @@ interface loginData {
 export interface loginResponseData {
   code: number
   data: loginData
+  message: string
+  ok: boolean
 }
 interface userInfo {
   roles: string[]
   name: string
   avatar: string
-  introduction: string
+  routes: string[]
+  buttons: string[]
 }
 export interface userInfoReponseData {
   code: number
   data: userInfo
+  message: string
+  ok: boolean
+}
+export interface logoutResponseData {
+  code: number
+  data: string
+  message: string
+  ok: boolean
 }
