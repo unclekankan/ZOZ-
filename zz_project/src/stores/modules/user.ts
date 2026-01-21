@@ -32,7 +32,7 @@ export const useUserStore = defineStore('user', () => {
       localStorage.removeItem('token')
       return 'ok'
     } else {
-      return Promise.reject(new Error(res.data.message))
+      return Promise.reject(new Error(res.data))
     }
   }
   return { token, userLogin, menuRouter, userInfo, avater, username, userLogout }
