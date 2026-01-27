@@ -1,8 +1,9 @@
 import svg_icon from './svg-icon/svg_icon.vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
+import Category from './category/index.vue'
 const globalComponents = {
   svg_icon,
+  Category,
 }
 // 注册全局组件的插件
 export default {

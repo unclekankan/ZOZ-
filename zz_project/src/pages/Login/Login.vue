@@ -41,7 +41,6 @@ let userInfo=ref({
   username:'admin',
   password:'111111'
 })
-console.log(userInfo.value.password);
 
 // 表单验证规则
 const validatorUsername=(rules:any,value:string,callback:any)=>{

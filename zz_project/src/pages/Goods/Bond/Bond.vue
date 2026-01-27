@@ -13,7 +13,11 @@
       <el-table-column prop="edit" label="品牌操作" >
         <template #="{row,$index}">
           <el-button type="primary" icon="Edit" @click="editTrade(row)">编辑</el-button>
-          <el-button type="danger" icon="Delete" @click="deleteTrade(row)">删除</el-button>
+            <el-popconfirm :title="`确定删除${row.tmName}吗?`" width="200px" icon="delete" @confirm="deleteTrade(row)">
+              <template #reference>
+                <el-button type="danger" icon="Delete">删除</el-button>
+              </template>
+            </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -31,11 +35,11 @@
   </div>
   </el-card>
   <el-dialog v-model="dialogFormVisible" :title="dialogName" width="700px">
-      <el-form :model="add_trade" style="width: 80%;" label-width="100px">
-        <el-form-item label="品牌名称">
+      <el-form :model="add_trade" style="width: 80%;" label-width="100px" :rules="rules" ref="formRef">
+        <el-form-item label="品牌名称" prop="tmName" >
           <el-input v-model="add_trade.tmName" placeholder="请输入品牌名称"></el-input>
         </el-form-item>
-        <el-form-item label="品牌logo">
+        <el-form-item label="品牌logo" prop="logo" >
           <el-upload class="avatar-uploader"
               action="/api/admin/product/fileUpload"
               :headers="token"
@@ -57,16 +61,17 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref , onMounted} from 'vue';
+  import { ref , onMounted, nextTick} from 'vue';
   import { reqHasTradeMark ,reqAddTradeMark,reqUpdateTradeMark,reqDeleteTradeMark } from '@/api/product/trademark/index.ts';
   import type {Records,Trademark,TrademarkResponseData} from '@/api/product/trademark/type';
   import { ElMessage } from 'element-plus'
   import type { UploadProps } from 'element-plus'
   import { useUserStore } from '@/stores/modules/user'
+  const formRef = ref()
   const currentPage4 = ref<number>(1);
   const pageSize4 = ref<number>(3);
   const total = ref<number>(0);
-    const tableData = ref<Records>([]);
+  const tableData = ref<Records>([]);
   const getTradeMark = async (pager = 1)=>{
     currentPage4.value = pager
     let result: TrademarkResponseData = await reqHasTradeMark(currentPage4.value,pageSize4.value)
@@ -91,10 +96,19 @@ const cancel = () => {
   add_trade.value.logo = ''
   dialogFormVisible.value = false
 }
-const dialogName = ref<string>('添加商品品牌')
+const dialogName = ref<string>()
 const dialogNameChange = (name: string) => {
   dialogFormVisible.value = true
   dialogName.value = `${name}品牌`
+  //加载表单后清除验证
+  //方法1
+  // formRef.value?.clearValidate('tmName')
+  // formRef.value?.clearValidate('logo')
+  //方法2
+  nextTick(()=>{
+    formRef.value?.clearValidate('tmName')
+    formRef.value?.clearValidate('logo')
+  })
 }
 const editTrade = async(row: any)=>{
     add_trade.value.id = row.id
@@ -102,7 +116,11 @@ const editTrade = async(row: any)=>{
     add_trade.value.logo = row.logoUrl
     dialogNameChange('编辑')
 }
+
 const confirm = async ()=>{
+  //校验表单
+ await formRef.value.validate()
+  // 判断是添加还是编辑
   if(add_trade.value.id){
     // 编辑品牌
     let result = await reqUpdateTradeMark({
@@ -150,13 +168,12 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return isJPG && isLt2M;
 }
 // 上传成功回调
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response,uploadFile) =>
+{
   add_trade.value.logo = URL.createObjectURL(uploadFile.raw!)
   console.log(response)
   add_trade.value.logo = response.data
+  formRef.value.clearValidate('logo')
 }
 const userStore = useUserStore()
 // 携带token(对象的形式)
@@ -168,10 +185,33 @@ const deleteTrade = async(row: Trademark)=>{
   let result = await reqDeleteTradeMark(row.id as number)
   if(result.code ==200){
     ElMessage.success('删除品牌成功')
-    getTradeMark(currentPage4.value)
+    getTradeMark(tableData.value.length > 1 ? currentPage4.value : currentPage4.value - 1)
   }else{
     ElMessage.error('删除品牌失败')
   }
+}
+// 表单验证规则
+const validatorTMName=(rules:any,value:string,callback:any)=>{
+  if(value.length<2){
+    callback(new Error('品牌名称不能少于2个字'))
+  } else {
+    callback()
+  }
+}
+const validatorLogo=(rules:any,value:string,callback:any)=>{
+  if(!value){
+    callback(new Error('请上传品牌logo'))
+  } else {
+    callback()
+  }
+}
+const rules = {
+  tmName: [
+    {validator:validatorTMName,trigger:'blur',required:true}
+  ],
+  logo: [
+    {validator:validatorLogo,required:true}
+  ]
 }
 </script>
 <style>
