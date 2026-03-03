@@ -32,20 +32,29 @@ interface Category3Data {
 }
 // 属性值对象
 export interface AttrValue {
-  id: number
+  id?: number
   valueName: string
-  attrId: number
+  attrId?: number
+  model?: boolean
 }
 //储存属性值的数据类型
 export type AttrValueList = AttrValue[]
 
 // 平台属性对象
 export interface Attr {
+  attrIdAndValueId?: string
   id?: number
   attrName: string
-  categoryId: number
+  categoryId: string | number
   categoryLevel: number
   attrValueList: AttrValueList
 }
 //储存平台属性的数据类型
 export type AttrList = Attr[]
+// 平台属性响应数据类型
+export interface AttrResponseData {
+  code: number
+  message: string
+  data: AttrList
+  ok: boolean
+}

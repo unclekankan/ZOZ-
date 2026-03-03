@@ -1,18 +1,18 @@
 <template>
     <el-card>
     <el-form :inline="true">
-      <el-form-item label="一级分类">
-        <el-select  placeholder="请选择一级分类" v-model="categoryStore.C1id" style="width: 300px; height: 40px;" @change="categoryStore.getC2List(categoryStore.C1id)">
+      <el-form-item label="一级分类" >
+        <el-select  placeholder="请选择一级分类" v-model="categoryStore.C1id" style="width: 300px; height: 40px;" @change="categoryStore.getC2List(categoryStore.C1id)" :disabled="scene===1?true:false">
           <el-option v-for="ele in categoryStore.res1" :label="ele.name" :value="ele.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="二级分类">
-        <el-select  placeholder="请选择二级分类" style="width: 300px; height: 40px;" v-model="categoryStore.C2id" @change="categoryStore.getC3List(categoryStore.C2id)">
+      <el-form-item label="二级分类" >
+        <el-select  placeholder="请选择二级分类" style="width: 300px; height: 40px;" v-model="categoryStore.C2id" @change="categoryStore.getC3List(categoryStore.C2id)" :disabled="scene===1?true:false">
           <el-option v-for="ele in categoryStore.res2" :label="ele.name" :value="ele.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="三级分类">
-        <el-select  placeholder="请选择三级分类" style="width: 300px; height: 40px;" v-model="categoryStore.C3id" >
+      <el-form-item label="三级分类" >
+        <el-select  placeholder="请选择三级分类" style="width: 300px; height: 40px;" v-model="categoryStore.C3id" :disabled="scene===1?true:false">
           <el-option v-for="ele in categoryStore.res3" :label="ele.name" :value="ele.id"></el-option>
         </el-select>
       </el-form-item>
@@ -26,6 +26,7 @@ const categoryStore = useCategoryStore()
 onMounted(async () => {
   categoryStore.getc1List()
 })
+defineProps({ scene: Number })
 </script>
 <style scoped>
 

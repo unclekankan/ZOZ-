@@ -124,11 +124,11 @@ export const constantRouter = [
         },
       },
       {
-        path: '/Goods/SUP',
-        name: 'SUP',
-        component: () => import('@/pages/Goods/SUP/SUP.vue'),
+        path: '/Goods/SPU',
+        name: 'SPU',
+        component: () => import('@/pages/Goods/SPU/SPU.vue'),
         meta: {
-          title: 'SUP管理',
+          title: 'SPU管理',
           hidden: true,
           icon: 'Menu',
         },

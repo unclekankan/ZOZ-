@@ -75,7 +75,6 @@
   const getTradeMark = async (pager = 1)=>{
     currentPage4.value = pager
     let result: TrademarkResponseData = await reqHasTradeMark(currentPage4.value,pageSize4.value)
-    console.log(result);
     if(result.code ==200){
       total.value = result.data.total
       tableData.value = result.data.records
@@ -171,7 +170,6 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response,uploadFile) =>
 {
   add_trade.value.logo = URL.createObjectURL(uploadFile.raw!)
-  console.log(response)
   add_trade.value.logo = response.data
   formRef.value.clearValidate('logo')
 }

@@ -44,10 +44,10 @@ let userInfo=ref({
 
 // 表单验证规则
 const validatorUsername=(rules:any,value:string,callback:any)=>{
-  if(/^[a-zA-Z_][a-zA-Z0-9_]{3,15}$/.test(value)){
+  if(/^[\u4e00-\u9fa5a-zA-Z_][\u4e00-\u9fa5a-zA-Z0-9_]{3,15}$/.test(value)){
     callback()
   } else {
-    callback(new Error('必须以字母下划线开头，长度4-16'))
+    callback(new Error('必须以字母或下划线开头，长度4-16'))
   }
 }
 const validatorPassword=(rules:any,value:string,callback:any)=>{

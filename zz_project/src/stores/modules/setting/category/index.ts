@@ -29,11 +29,13 @@ export const useCategoryStore = defineStore('category', () => {
       res3.value = result.data
     }
   }
-  const getAttrInfoList = async (C1id: any, C2id: any, C3id: any) => {
-    let result = await reqAttrInfoList(C1id, C2id, C3id)
-    if (result.code == 200) {
-      console.log(result)
-    }
+  const reset = () => {
+    C1id.value = ''
+    C2id.value = ''
+    C3id.value = ''
+    res1.value = ''
+    res2.value = ''
+    res3.value = ''
   }
-  return { res1, getc1List, res2, getC2List, res3, getC3List, C1id, C2id, C3id, getAttrInfoList }
+  return { res1, getc1List, res2, getC2List, res3, getC3List, C1id, C2id, C3id, reset }
 })
