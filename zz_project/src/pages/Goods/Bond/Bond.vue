@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card style="max-width: 100%">
-    <el-button type="primary" icon="Plus" @click="dialogNameChange('添加')">添加商品</el-button>
+    <el-button type="primary" icon="Plus" @click="dialogNameChange('添加')" v-has="'btn.Trademark.add'">添加商品</el-button>
     <el-table :data="tableData" border style="width: 100% ;margin: 10px 0px;">
       <el-table-column  label="序列" width="80" align="center"type="index" />
       <el-table-column prop="tmName" label="品牌名称" />

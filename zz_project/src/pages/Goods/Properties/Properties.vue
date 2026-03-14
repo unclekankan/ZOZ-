@@ -18,7 +18,7 @@
           <el-button type="primary" size="small" icon="Edit" @click="edit(row,$index)">编辑</el-button>
            <el-popconfirm :title="`确定删除${row.attrName}吗?`" width="200px" icon="delete" @confirm="deleteAttr(row.id)">
               <template #reference>
-                <el-button type="danger" icon="Delete">删除</el-button>
+                <el-button type="danger" icon="Delete" size="small">删除</el-button>
               </template>
             </el-popconfirm>
         </template>

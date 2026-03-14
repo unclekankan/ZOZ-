@@ -10,7 +10,7 @@ import './style/index.scss'
 import App from './App.vue'
 import router from './router'
 import globalComponents from './components/index.ts'
-import '@/permission.ts'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 const app = createApp(App)
 app.use(ElementPlus, {
   locale: zhCn,
@@ -18,5 +18,9 @@ app.use(ElementPlus, {
 globalComponents.install(app)
 const pinia = createPinia()
 app.use(pinia)
+import '@/permission.ts'
 app.use(router)
+import { isHasbuttton } from '@/stores/modules/has.ts'
+//自定义指令
+isHasbuttton(app)
 app.mount('#app')

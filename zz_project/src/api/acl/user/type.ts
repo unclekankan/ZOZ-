@@ -33,9 +33,10 @@ export interface assignRoleResponseData extends responseData {
   }
 }
 export interface roles {
-  id: number
-  roleName: string
-  remark: string
+  id?: number
+  roleName?: string
+  remark?: string
+  permissonId?: []
 }
 export interface assignedRoleResponseData extends responseData {
   data: any

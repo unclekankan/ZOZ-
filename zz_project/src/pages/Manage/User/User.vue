@@ -5,7 +5,7 @@
       <el-input placeholder="请输入用户名称" v-model="username"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" size="default" @click="search">搜索</el-button>
+      <el-button type="primary" size="default" @click="search" :disabled="username ? false : true">搜索</el-button>
       <el-button type="info" size="default" @click="reset">重置</el-button>
     </el-form-item>
   </el-form>
@@ -24,13 +24,13 @@
     <el-table-column label="更新时间" width="120px" prop="updateTime"  show-overflow-tooltip ></el-table-column>
     <el-table-column label="操作" align="center">
       <template #="{row}">
-        <el-button type="warning" size="small" @click="assignRole(row)">分配角色</el-button>
-        <el-button type="primary" size="small" @click="addUser(row)">编辑</el-button>
-         <el-popconfirm :title="`确定删除${row.username}吗?`" width="200px" icon="delete" @confirm="deleteUser(row)" >
+        <el-button type="warning" size="small" @click="assignRole(row)" icon="InfoFilled">分配角色</el-button>
+        <el-button type="primary" size="small" @click="editUser(row)" icon="Edit">编辑</el-button>
+          <el-popconfirm :title="`确定删除${row.username}吗?`" width="200px" icon="delete" @confirm="deleteUser(row)" >
               <template #reference>
                 <el-button type="danger" icon="Delete" size="small">删除</el-button>
               </template>
-            </el-popconfirm>
+          </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
@@ -97,13 +97,13 @@
   </el-drawer>
 </template>
 <script lang="ts" setup>
-import { ref , onMounted } from 'vue'
-import { reqGetUserPage ,reqAddOrUpdateUser,reqAssignRole,reqSaveAssignRole,reqDeleteUser,reqBatchDeleteUser} from '@/api/permission/user/index'
-import type { User,roles } from '@/api/permission/user/type'
+import { ref , onMounted,nextTick } from 'vue'
+import { reqGetUserPage ,reqAddOrUpdateUser,reqAssignRole,reqSaveAssignRole,reqDeleteUser,reqBatchDeleteUser} from '@/api/acl/user/index'
+import type { User,roles } from '@/api/acl/user/type'
 import { ElMessage } from 'element-plus'
 const currentPage4 = ref(1)
 const pageSize4 = ref(3)
-const total = ref<number>(1)
+const total = ref<number>(0)
 onMounted(()=>{
   getUserPage()
 })
@@ -129,8 +129,21 @@ const handleSizeChange = (val: number) => { pageSize4.value = val
 let psd = ref<boolean>(true)
 //添加用户
 let title = ref<string>('添加用户')
-const addUser = (row:User)=>{
-  if(row.id){
+const addUser = ()=>{
+   title.value = '添加用户'
+      userInfo.value = {
+        username: '',
+        password: '',
+        name: ''
+      }
+    psd.value = true
+    //清除上一次校验结果
+    nextTick(()=>{
+    formRef.value.clearValidate(['username','name','password'])
+    })
+    drawer2.value = true
+}
+const editUser = (row:User)=>{
     Object.assign(userInfo.value,{
       id: row.id,
       username: row.username,
@@ -138,15 +151,10 @@ const addUser = (row:User)=>{
     })
     psd.value = false
     title.value = '修改用户'
-  }else{
-    title.value = '添加用户'
-      userInfo.value = {
-        username: '',
-        password: '',
-        name: ''
-      }
-    psd.value = true
-  }
+  //清除上一次校验结果
+    nextTick(()=>{
+    formRef.value.clearValidate(['username','name','password'])
+    })
   drawer2.value = true
 }
 //添加用户抽屉
@@ -190,24 +198,24 @@ const validatorPassword=(rules:any,value:string,callback:any)=>{
 if(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:,.?/~`]{6,10}$/.test(value)){
   callback()
 } else {
-  callback(new Error('密码长度6-10位'))
+  callback(new Error('密码长度6-10位，不能为空'))
 }
 }
 const validatorName=(rules:any,value:string,callback:any)=>{
   if(/^[\u4e00-\u9fa5a-zA-Z0-9_]{2,10}$/.test(value)){
     callback()
   } else {
-    callback(new Error('昵称长度2-10位'))
+    callback(new Error('昵称长度2-10位，不能为空'))
   }}
 const rules = {
   username: [
-  { required: true,validator:validatorUsername,trigger:'change'}
+  { required: true,validator:validatorUsername,trigger:'blur'}
   ],
   name: [
-  { required: true,validator:validatorName,trigger:'change'}
+  { required: true,validator:validatorName,trigger:'blur'}
   ],
   password: [
-  { required: true,validator:validatorPassword,trigger:'change'}
+  { required: psd.value,validator:validatorPassword,trigger:'blur'}
 ]
 }
 //表单ref
@@ -233,7 +241,7 @@ const assignRole = async(row:User)=>{
 //全选
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
-let checkedRoles = ref<string[]>([])
+let checkedRoles = ref<any>([])
 const handleCheckedRolesChange =(val:any)=>{
   const checkedCount = val.length
   checkAll.value = checkedCount === roleList.value.length
@@ -296,6 +304,7 @@ const batchDeleteUser = async()=>{
     username.value = ''
     getUserPage(1)
   }
+
 </script>
 <style scoped>
 .form {

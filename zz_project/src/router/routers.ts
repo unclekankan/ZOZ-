@@ -1,7 +1,4 @@
-import { Promotion } from '@element-plus/icons-vue'
-import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs'
-
-export const constantRouter = [
+export const constantRoute = [
   {
     path: '/Login',
     name: 'Login',
@@ -53,14 +50,16 @@ export const constantRouter = [
       icon: 'Monitor',
     },
   },
+]
+export const asyncRoute = [
   {
-    path: '/Manage',
-    name: 'Manage',
+    path: '/Acl',
+    name: 'Acl',
     component: () => import('@/layout/Layout.vue'),
-    redirect: '/Manage/User',
+    redirect: '/Acl/User',
     children: [
       {
-        path: '/Manage/User',
+        path: '/Acl/User',
         name: 'User',
         component: () => import('@/pages/Manage/User/User.vue'),
         meta: {
@@ -70,7 +69,7 @@ export const constantRouter = [
         },
       },
       {
-        path: '/Manage/Role',
+        path: '/Acl/Role',
         name: 'Role',
         component: () => import('@/pages/Manage/Role/Role.vue'),
         meta: {
@@ -80,7 +79,7 @@ export const constantRouter = [
         },
       },
       {
-        path: '/Manage/Permission',
+        path: '/Acl/Permission',
         name: 'Permission',
         component: () => import('@/pages/Manage/Permission/Permission.vue'),
         meta: {
@@ -97,15 +96,14 @@ export const constantRouter = [
     },
   },
   {
-    path: '/Goods',
-    name: 'Goods',
+    path: '/Product',
+    name: 'Product',
     component: () => import('@/layout/Layout.vue'),
-    redirect: '/Goods/Bond',
-
+    redirect: '/Product/Bond',
     children: [
       {
-        path: '/Goods/Bond',
-        name: 'Bond',
+        path: '/Product/Trademark',
+        name: 'Trademark',
         component: () => import('@/pages/Goods/Bond/Bond.vue'),
         meta: {
           title: '品牌管理',
@@ -114,8 +112,8 @@ export const constantRouter = [
         },
       },
       {
-        path: '/Goods/Properties',
-        name: 'Properties',
+        path: '/Product/Attr',
+        name: 'Attr',
         component: () => import('@/pages/Goods/Properties/Properties.vue'),
         meta: {
           title: '属性管理',
@@ -124,8 +122,8 @@ export const constantRouter = [
         },
       },
       {
-        path: '/Goods/SPU',
-        name: 'SPU',
+        path: '/Product/SPU',
+        name: 'Spu',
         component: () => import('@/pages/Goods/SPU/SPU.vue'),
         meta: {
           title: 'SPU管理',
@@ -134,8 +132,8 @@ export const constantRouter = [
         },
       },
       {
-        path: '/Goods/SKU',
-        name: 'SKU',
+        path: '/Product/SKU',
+        name: 'Sku',
         component: () => import('@/pages/Goods/SKU/SKU.vue'),
         meta: {
           title: 'SKU管理',
@@ -150,6 +148,8 @@ export const constantRouter = [
       icon: 'Shop',
     },
   },
+]
+export const anyRoute = [
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',

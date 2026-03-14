@@ -20,6 +20,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           await userStore.userInfo()
+          //...to防止动态路由未加载完毕就调转
           next({ ...to, replace: true })
         } catch (error) {
           await userStore.userLogout()

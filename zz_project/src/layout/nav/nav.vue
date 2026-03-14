@@ -16,7 +16,19 @@
   <div class="right_nav">
     <el-button icon="Refresh" circle @click="fresh"></el-button>
     <el-button :icon="Ficon" circle @click="fullScreen"></el-button>
-    <el-button icon="Setting" circle></el-button>
+     <el-popover placement="bottom" title="主题切换" :visible="visual" width="250px">
+      <el-form>
+        <el-form-item label="主题颜色">
+           <el-color-picker v-model="color" show-alpha @change="setColor"/>
+        </el-form-item>
+        <el-form-item label="暗黑模式">
+           <el-switch v-model="dark" inline-prompt active-action-icon="MoonNight" inactive-action-icon="Sunny" @change="setMode"/>
+        </el-form-item>
+      </el-form>
+    <template #reference>
+      <el-button icon="Setting" circle @click="visual = !visual"></el-button>
+    </template>
+  </el-popover>
     <div class="avatar">
       <img :src=userStore.avater style="width: 35px; height: 35px;">
     </div>
@@ -42,7 +54,6 @@ import { ref } from 'vue';
 import {useRoute} from 'vue-router'
 import { useRouter } from 'vue-router';
 import {useLayoutStore} from '@/stores/modules/setting/setting'
-import { FullScreen } from '@element-plus/icons-vue';
 import { useUserStore } from '@/stores/modules/user.ts'
 const userStore = useUserStore()
 const router = useRouter()
@@ -81,8 +92,22 @@ const LogOut = async()=>{
   catch(e){
     console.log(e);
   }
-
-
+}
+//颜色选择器
+const color = ref('rgba(19, 206, 102, 0.8)')
+//暗黑模式切换开关
+let dark = ref<boolean>(false)
+let visual = ref<boolean>(false)
+//切换暗黑模式
+const setMode = ()=>{
+  let html = document.documentElement
+  dark.value ? html.className='dark' : html.className=''
+}
+//主题颜色
+const setColor = ()=>{
+  let html = document.documentElement
+  getComputedStyle(html).getPropertyValue(`--el-color-primary`)
+  html.style.setProperty('--el-color-primary', color.value)
 }
 </script>
 <style scoped lang="scss">
@@ -113,5 +138,4 @@ const LogOut = async()=>{
       }
     }
   }
-
 </style>

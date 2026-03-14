@@ -1,7 +1,7 @@
 <template>
 <div class="layout_continer">
   <!-- 菜单 -->
-  <div class="layout_menu">
+  <div class="layout_menu"  :class="{fold: fold_menu}">
     <div class="logo" v-if="setting.logoHidden">
       <img :src="setting.logo" alt="">
       <p>{{ setting.title }}</p>
@@ -36,8 +36,6 @@ const {menuRouter,userInfo} = useUserStore()
 let fold_menu = ref(false)
 const fold_menu_f = (ele:boolean) => {
   fold_menu.value = ele
-  if(ele){
-  }else{}
 }
 onMounted(()=>{
   let result = userInfo()
@@ -47,12 +45,14 @@ onMounted(()=>{
 .layout_continer{
   width: 100%;
   height: 100vh;
-  background-color: #000000;
   .layout_menu{
   width: $layout_manu_width;
   transition: all 0.5s;
   height: 100vh;
   background-color: $layout_manu_bgc;
+  &.fold{
+    width: $layout_manu_minus_width;
+    }
   .logo{
     display: flex;
     align-items: center;
@@ -68,11 +68,8 @@ onMounted(()=>{
       margin-left: 10px;
       color: #ffffff;
     }
-
   }
-    &.fold{
-    width: $layout_manu_minus_width;
-    }
+
   .scrollbar{
       height: calc(100vh - $layout_manu_logo_height);
       .el-menu{
@@ -87,7 +84,6 @@ onMounted(()=>{
   left: $layout_manu_width;
   width: calc(100% - $layout_manu_width);
   height: $layout_navigation_height;
-  background-color: #ffffff;
   transition: all 0.5s;
   box-shadow: 0 3.5px 5px -2px rgb(0, 0, 0);
    &.fold{
@@ -99,7 +95,6 @@ onMounted(()=>{
   padding: 20px;
   width: calc(100% - $layout_manu_width);
   height: calc(100vh - $layout_navigation_height);
-  background-color: #ffffff;
   position: relative;
   left: $layout_manu_width;
   top:calc($layout_navigation_height - 100vh);
