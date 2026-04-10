@@ -32,7 +32,7 @@ export default defineConfig(({ command }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/style/variable.scss" as *;`,
+          additionalData: `@use "/style/variable.scss" as *;`,
         },
       },
     },

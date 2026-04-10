@@ -33,7 +33,8 @@ export const useUserStore = defineStore('user', () => {
   const userInfo = async () => {
     let result: userInfoReponseData = await reqUserInfo()
     if (result.code == 200) {
-      let myroutes = ref(cloneDeep(asyncRoute))
+      // 放到userInfo函数中，用于实现菜单响应式变化，如果放在外面则在第一次变化后，数据将不会改变(可以减少，不能增加)
+      let myroutes = ref(cloneDeep(asyncRoute)) //使用json深拷贝会丢失component的路径
       avater.value = result.data.avatar
       username.value = result.data.name
       buttons.value = result.data.buttons
